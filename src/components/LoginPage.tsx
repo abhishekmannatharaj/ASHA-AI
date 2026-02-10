@@ -90,7 +90,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
             <p className="text-xs text-center text-gray-500 mt-4">
-              Demo: Use any ASHA ID with any password, or use admin/admin for admin access
+              Demo: Use any ASHA ID with any 12345678], or use admin/admin for admin access
             </p>
           </form>
         </CardContent>
