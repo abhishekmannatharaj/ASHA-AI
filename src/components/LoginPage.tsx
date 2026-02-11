@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Heart } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+} from './ui/card';
+import { Heart, Settings } from 'lucide-react';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 interface LoginPageProps {
@@ -28,7 +32,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${publicAnonKey}`,
+            Authorization: `Bearer ${publicAnonKey}`,
           },
           body: JSON.stringify({ userId, password }),
         }
@@ -39,62 +43,92 @@ export function LoginPage({ onLogin }: LoginPageProps) {
       if (data.success) {
         onLogin({ userId: data.userId, role: data.role, name: data.name });
       } else {
-        setError('Invalid credentials');
+        setError('Invalid ASHA ID or password');
       }
     } catch (err) {
-      console.error('Login error:', err);
-      setError('Failed to login. Please try again.');
+      setError('Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-green-50 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-20 h-20 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-            <Heart className="w-12 h-12 text-white" fill="white" />
-          </div>
-          <CardTitle className="text-3xl">ASHA Karyakarta</CardTitle>
-          <CardDescription>Health Survey & Patient Management System</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="userId">ASHA ID / Admin</Label>
-              <Input
-                id="userId"
-                type="text"
-                placeholder="Enter your ASHA ID or 'admin'"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-                required
-              />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 px-4">
+      <div className="w-full max-w-md text-center">
+        {/* Logo */}
+        <div className="mx-auto mb-4 w-20 h-20 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+          <Heart className="w-10 h-10 text-white" fill="white" />
+        </div>
+
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-green-600">
+          Smart <span className="text-blue-600">ASHA Connect</span>
+        </h1>
+        <p className="text-gray-600 mb-6">
+          Healthcare Management for Rural India
+        </p>
+
+        <Card className="shadow-lg">
+          <CardHeader className="pb-2">
+            {/* Login / Sign Up tabs (UI only) */}
+            <div className="flex bg-gray-100 rounded-full p-1">
+              <button className="flex-1 bg-white rounded-full py-2 text-sm font-medium shadow">
+                Login
+              </button>
+              {/* <button className="flex-1 text-sm text-gray-500">
+                Sign Up
+              </button> */}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            {error && (
-              <p className="text-sm text-red-500">{error}</p>
-            )}
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
-            </Button>
-            <p className="text-xs text-center text-gray-500 mt-4">
-              Demo: Use any ASHA ID with any 12345678], or use admin/admin for admin access
-            </p>
-          </form>
-        </CardContent>
-      </Card>
+          </CardHeader>
+
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4 text-left">
+              <div className="space-y-1">
+                <Label>ASHA ID / Admin</Label>
+                <Input
+                  type="text"
+                  placeholder="Enter ASHA ID or admin"
+                  value={userId}
+                  onChange={(e) => setUserId(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="space-y-1 ">
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              {error && (
+                <p className="text-sm text-red-500">{error}</p>
+              )}
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:opacity-90"
+              >
+                {loading ? 'Logging in...' : 'Login'}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        {/* Demo Accounts */}
+        <div className="mt-15 text-sm text-gray-600">
+          <p className="font-medium">Demo Accounts:</p>
+          <p>ASHA: ASHA ID / 12345678]</p>
+          <p>Admin: admin / admin</p>
+        </div>
+
+       
+      </div>
     </div>
   );
 }
