@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+
+# Node (if applicable)
+node_modules/
+
+# Secrets
+.env
+.env.*
+
+# Misc
+*.tmp
+*.bak
